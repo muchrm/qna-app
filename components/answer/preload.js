@@ -1,10 +1,14 @@
-// const {ipcRenderer} = require('electron')
+const { ipcRenderer } = require("electron");
+const qnaService = require("../../services/question-and-answer.service");
+const { to } = require("../../utils/to")
+window.addEventListener("DOMContentLoaded", () => {
+  ipcRenderer.on("action-update-answer", async (event, {questionId}) => {
+    const [err, answer] = await to(qnaService.getAnswerByQuestion(questionId))
+    if(err){
+      return;
+    }
+    let label = document.getElementById("answer");
 
-// window.addEventListener('DOMContentLoaded', () => {
-//     ipcRenderer.send('asynchronous-message', 'ping')
-//     ipcRenderer.on('asynchronous-reply', (event, arg) => {
-//         const message = `Asynchronous message reply: ${arg}`
-//         document.getElementById('async-reply').innerHTML = message
-//     })
-// })
-  
+    label.innerHTML = answer;
+  });
+});

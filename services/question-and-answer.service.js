@@ -11,19 +11,21 @@ const qnaList = [
   },
 ];
 
-function getQuestion() {
-  return qnaList;
+function getAll() {
+  return Promise.resolve(qnaList);
 }
 
-function getAnswer(id) {
-  const qna = qnaList.find((qna) => qna.id == id);
-  if (qna) {
-    return qna.awswer;
-  }
-  return null;
+function getAnswerByQuestion(id) {
+  return new Promise((resolve, reject) => {
+    const qna = qnaList.find((qna) => qna.id == id);
+    if (qna) {
+      return resolve(qna.awswer);
+    }
+    return reject(new Error("Could not find"));
+  });
 }
 
 module.exports = {
-  getQuestion: getQuestion,
-  getAnswer: getAnswer,
+  getAll,
+  getAnswerByQuestion,
 };

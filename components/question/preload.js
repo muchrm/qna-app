@@ -1,15 +1,32 @@
-// const { ipcRenderer } = require("electron");
+const { ipcRenderer } = require("electron");
+const qnaService = require("../../services/question-and-answer.service");
+const { to } = require("../../utils/to")
 
-// // All of the Node.js APIs are available in the preload process.
-// // It has the same sandbox as a Chrome extension.
-// window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
+  const container = document.getElementById("question-list");
 
-//   const replaceText = (selector, text) => {
-//     const element = document.getElementById(selector);
-//     if (element) element.innerText = text;
-//   };
+  const [err,qnaList] = await to(qnaService.getAll());
+  if(err){
+    return;
+  }
 
-//   for (const type of ["chrome", "node", "electron"]) {
-//     replaceText(`${type}-version`, process.versions[type]);
-//   }
-// });
+  questionBtn = qnaList.map((qna) => {
+    const button = document.createElement("button");
+    button.innerHTML = qna.question;
+    button.setAttribute("data-question-id", qna.id);
+    return button;
+  });
+
+  container.append(...questionBtn);
+
+  container.addEventListener(
+    "click",
+    (event) => {
+      const questionId = event.target.dataset.questionId
+      ipcRenderer.invoke("request-update-answer", {
+        questionId,
+      });
+    },
+    { capture: true }
+  );
+});
