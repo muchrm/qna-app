@@ -9,7 +9,8 @@ window.addEventListener("DOMContentLoaded", async () => {
   if(err){
     return;
   }
-
+  console.log(qnaList);
+  
   questionBtn = qnaList.map((qna) => {
     const button = document.createElement("button");
     button.innerHTML = qna.question;
