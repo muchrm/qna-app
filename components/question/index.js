@@ -7,9 +7,6 @@ function createMainWindow(parent) {
     width: 1024,
     height: 768,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true,
       preload: path.join(__dirname, "preload.js"),
     },
   });
