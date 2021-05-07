@@ -1,9 +1,8 @@
-import { BrowserWindow } from 'electron';
+import { App, BrowserWindow } from 'electron';
 import { join } from 'path';
-
 let window: BrowserWindow | null;
 
-export function getOrCreateChildWindow(parent: BrowserWindow): Promise<BrowserWindow> {
+export function getOrCreateChildWindow(app:App, parent: BrowserWindow): Promise<BrowserWindow> {
   return new Promise((resolve) => {
     if (window) {
       return resolve(window);
@@ -14,11 +13,11 @@ export function getOrCreateChildWindow(parent: BrowserWindow): Promise<BrowserWi
       height: 600,
       parent,
       webPreferences: {
-        preload: join(__dirname, 'preload.js'),
+        preload: join(app.getAppPath(),'answer/preload.js'),
       },
     });
     // and load the index.html of the app.
-    window.loadFile(join(__dirname, 'answer.html'));
+    window.loadFile('answer/answer.html');
 
     window.webContents.on('destroyed', () => {
       window = null;

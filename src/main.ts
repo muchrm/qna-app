@@ -8,18 +8,18 @@ import { ipcMain } from 'electron';
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  const mainWindow = createMainWindow();
+  const mainWindow = createMainWindow(app);
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
+    if (BrowserWindow.getAllWindows().length === 0) createMainWindow(app);
   });
 
   // In this file you can include the rest of your app's specific main process
   // code. You can also put them in separate files and require them here.
   ipcMain.handle('request-update-answer', async (event, args) => {
-    const answerWindow = await getOrCreateChildWindow(mainWindow);
+    const answerWindow = await getOrCreateChildWindow(app, mainWindow);
     answerWindow.webContents.send('action-update-answer', args);
   });
 });

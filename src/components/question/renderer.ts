@@ -1,4 +1,3 @@
-import { ipcRenderer } from 'electron';
 import { Question } from '../../models/question';
 import { getAll } from '../../services/question-and-answer.service';
 import { to } from '../../utils/to';
@@ -25,9 +24,7 @@ async function getQuestionAndCreateQuestionButton(){
       (event) => {
         const element = event.target as HTMLButtonElement;
         const questionId = +(element.dataset.questionId as string);
-        ipcRenderer.invoke('request-update-answer', {
-          questionId,
-        });
+        window.electron.requestUpdateAnswer(questionId);
       },
       { capture: true },
     );
