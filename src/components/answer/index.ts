@@ -18,7 +18,7 @@ export function getOrCreateChildWindow(parent: BrowserWindow): Promise<BrowserWi
       },
     });
     // and load the index.html of the app.
-    window.loadFile(join(__dirname, 'index.html'));
+    window.loadFile(join(__dirname, 'answer.html'));
 
     window.webContents.on('destroyed', () => {
       window = null;

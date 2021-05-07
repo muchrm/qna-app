@@ -7,12 +7,12 @@ export function createMainWindow(): BrowserWindow {
     width: 1024,
     height: 768,
     webPreferences: {
-      preload: join(__dirname, 'preload.js'),
+      // preload: join(__dirname, 'preload.js'),
     },
   });
 
   // and load the index.html of the app.
-  window.loadFile(join(__dirname, 'index.html'));
+  window.loadFile(join(__dirname, 'question.html'));
 
   return window;
 }
