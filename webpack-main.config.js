@@ -33,6 +33,16 @@ module.exports = {
     ],
   },
   optimization: {
+    runtimeChunk: 'single', // check duplicate,
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
     minimize: false, // by default is set to true, set to false for readable code
   },
   target:'electron-main'
